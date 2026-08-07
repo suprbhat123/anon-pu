@@ -1,7 +1,11 @@
+import Button from "@/components/ui/Button";
+
 export default function Home() {
   return (
-    <main className="min-h-screen flex items-center justify-center bg-black text-white">
-      <h1 className="text-5xl font-bold">Anon PU v1.0</h1>
+    <main className="flex min-h-screen items-center justify-center bg-black">
+      <div className="w-full max-w-sm">
+        <Button>Get Started</Button>
+      </div>
     </main>
   );
 }
