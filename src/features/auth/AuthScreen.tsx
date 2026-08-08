@@ -13,9 +13,23 @@ interface AuthScreenProps {
 
 export default function AuthScreen({ onContinue }: AuthScreenProps) {
     const [email, setEmail] = useState("");
+    const [error, setError] = useState("");
 
     const handleContinue = () => {
-        onContinue(email);
+        const normalizedEmail = email.trim().toLowerCase();
+
+        if (!normalizedEmail) {
+            setError("Please enter your Parul University email.");
+            return;
+        }
+
+        if (!normalizedEmail.endsWith("@paruluniversity.ac.in")) {
+            setError("Please use your Parul University email.");
+            return;
+        }
+
+        setError("");
+        onContinue(normalizedEmail);
     };
 
     return (
@@ -48,8 +62,17 @@ export default function AuthScreen({ onContinue }: AuthScreenProps) {
                                     type="email"
                                     placeholder="you@paruluniversity.ac.in"
                                     value={email}
-                                    onChange={(event) => setEmail(event.target.value)}
+                                    onChange={(event) => {
+                                        setEmail(event.target.value);
+                                        setError("");
+                                    }}
                                 />
+
+                                {error && (
+                                    <p className="text-sm text-red-400">
+                                        {error}
+                                    </p>
+                                )}
                             </div>
 
                             <Button onClick={handleContinue}>
