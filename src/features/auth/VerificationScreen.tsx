@@ -1,23 +1,18 @@
 "use client";
 
-import { useState } from "react";
 import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
 import Container from "@/components/ui/Container";
 import Input from "@/components/ui/Input";
 import Logo from "@/components/ui/Logo";
 
-interface AuthScreenProps {
-    onContinue: (email: string) => void;
+interface VerificationScreenProps {
+    email?: string;
 }
 
-export default function AuthScreen({ onContinue }: AuthScreenProps) {
-    const [email, setEmail] = useState("");
-
-    const handleContinue = () => {
-        onContinue(email);
-    };
-
+export default function VerificationScreen({
+    email = "you@paruluniversity.ac.in",
+}: VerificationScreenProps) {
     return (
         <main className="min-h-screen bg-slate-950 text-white">
             <Container>
@@ -28,32 +23,31 @@ export default function AuthScreen({ onContinue }: AuthScreenProps) {
                                 <Logo />
 
                                 <h1 className="mt-6 text-2xl font-semibold">
-                                    Join Anon-PU
+                                    Verify your email
                                 </h1>
 
                                 <p className="mt-2 text-sm text-slate-400">
-                                    Verify your Parul University email to continue.
+                                    We sent a verification code to:
+                                </p>
+
+                                <p className="mt-2 text-sm font-medium text-slate-200">
+                                    {email}
                                 </p>
                             </div>
 
                             <div className="space-y-3">
-                                <label
-                                    htmlFor="university-email"
-                                    className="text-sm font-medium text-slate-200"
-                                >
-                                    Parul University Email
+                                <label className="text-sm font-medium text-slate-200">
+                                    Verification Code
                                 </label>
 
                                 <Input
-                                    type="email"
-                                    placeholder="you@paruluniversity.ac.in"
-                                    value={email}
-                                    onChange={(event) => setEmail(event.target.value)}
+                                    type="text"
+                                    placeholder="Enter verification code"
                                 />
                             </div>
 
-                            <Button onClick={handleContinue}>
-                                Continue
+                            <Button>
+                                Verify Email
                             </Button>
 
                             <p className="text-center text-xs text-slate-500">
