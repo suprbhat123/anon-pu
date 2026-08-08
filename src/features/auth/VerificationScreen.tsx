@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
 import Container from "@/components/ui/Container";
@@ -13,6 +14,20 @@ interface VerificationScreenProps {
 export default function VerificationScreen({
     email = "you@paruluniversity.ac.in",
 }: VerificationScreenProps) {
+    const [code, setCode] = useState("");
+    const [error, setError] = useState("");
+
+    const handleVerify = () => {
+        const normalizedCode = code.trim();
+
+        if (!normalizedCode) {
+            setError("Please enter your verification code.");
+            return;
+        }
+
+        setError("");
+    };
+
     return (
         <main className="min-h-screen bg-slate-950 text-white">
             <Container>
@@ -43,10 +58,21 @@ export default function VerificationScreen({
                                 <Input
                                     type="text"
                                     placeholder="Enter verification code"
+                                    value={code}
+                                    onChange={(event) => {
+                                        setCode(event.target.value);
+                                        setError("");
+                                    }}
                                 />
+
+                                {error && (
+                                    <p className="text-sm text-red-400">
+                                        {error}
+                                    </p>
+                                )}
                             </div>
 
-                            <Button>
+                            <Button onClick={handleVerify}>
                                 Verify Email
                             </Button>
 
