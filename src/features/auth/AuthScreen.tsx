@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { createClient } from "@/lib/supabase/client";
 import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
 import Container from "@/components/ui/Container";
@@ -14,8 +15,21 @@ interface AuthScreenProps {
 export default function AuthScreen({ onContinue }: AuthScreenProps) {
     const [email, setEmail] = useState("");
     const [error, setError] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
 
-    const handleContinue = () => {
+    useEffect(() => {
+        console.log(
+            "Supabase URL loaded:",
+            Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL),
+        );
+
+        console.log(
+            "Supabase publishable key loaded:",
+            Boolean(process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY),
+        );
+    }, []);
+
+    const handleContinue = async () => {
         const normalizedEmail = email.trim().toLowerCase();
 
         if (!normalizedEmail) {
@@ -29,6 +43,21 @@ export default function AuthScreen({ onContinue }: AuthScreenProps) {
         }
 
         setError("");
+        setIsLoading(true);
+
+        const supabase = createClient();
+
+        const { error: otpError } = await supabase.auth.signInWithOtp({
+            email: normalizedEmail,
+        });
+
+        setIsLoading(false);
+
+        if (otpError) {
+            setError(otpError.message);
+            return;
+        }
+
         onContinue(normalizedEmail);
     };
 
@@ -59,6 +88,7 @@ export default function AuthScreen({ onContinue }: AuthScreenProps) {
                                 </label>
 
                                 <Input
+                                    id="university-email"
                                     type="email"
                                     placeholder="you@paruluniversity.ac.in"
                                     value={email}
@@ -75,8 +105,8 @@ export default function AuthScreen({ onContinue }: AuthScreenProps) {
                                 )}
                             </div>
 
-                            <Button onClick={handleContinue}>
-                                Continue
+                            <Button onClick={handleContinue} disabled={isLoading}>
+                                {isLoading ? "Sending..." : "Continue"}
                             </Button>
 
                             <p className="text-center text-xs text-slate-500">

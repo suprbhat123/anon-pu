@@ -1,4 +1,5 @@
 type InputProps = {
+  id?: string;
   type?: "text" | "email" | "password";
   placeholder?: string;
   value?: string;
@@ -7,6 +8,7 @@ type InputProps = {
 };
 
 export default function Input({
+  id,
   type = "text",
   placeholder,
   value,
@@ -15,6 +17,7 @@ export default function Input({
 }: InputProps) {
   return (
     <input
+      id={id}
       type={type}
       placeholder={placeholder}
       value={value}

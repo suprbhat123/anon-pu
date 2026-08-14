@@ -1,10 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
 import Container from "@/components/ui/Container";
-import Input from "@/components/ui/Input";
 import Logo from "@/components/ui/Logo";
 
 interface VerificationScreenProps {
@@ -14,20 +11,6 @@ interface VerificationScreenProps {
 export default function VerificationScreen({
     email = "you@paruluniversity.ac.in",
 }: VerificationScreenProps) {
-    const [code, setCode] = useState("");
-    const [error, setError] = useState("");
-
-    const handleVerify = () => {
-        const normalizedCode = code.trim();
-
-        if (!normalizedCode) {
-            setError("Please enter your verification code.");
-            return;
-        }
-
-        setError("");
-    };
-
     return (
         <main className="min-h-screen bg-slate-950 text-white">
             <Container>
@@ -38,11 +21,11 @@ export default function VerificationScreen({
                                 <Logo />
 
                                 <h1 className="mt-6 text-2xl font-semibold">
-                                    Verify your email
+                                    Check your email
                                 </h1>
 
                                 <p className="mt-2 text-sm text-slate-400">
-                                    We sent a verification code to:
+                                    We sent a secure sign-in link to:
                                 </p>
 
                                 <p className="mt-2 text-sm font-medium text-slate-200">
@@ -50,31 +33,13 @@ export default function VerificationScreen({
                                 </p>
                             </div>
 
-                            <div className="space-y-3">
-                                <label className="text-sm font-medium text-slate-200">
-                                    Verification Code
-                                </label>
-
-                                <Input
-                                    type="text"
-                                    placeholder="Enter verification code"
-                                    value={code}
-                                    onChange={(event) => {
-                                        setCode(event.target.value);
-                                        setError("");
-                                    }}
-                                />
-
-                                {error && (
-                                    <p className="text-sm text-red-400">
-                                        {error}
-                                    </p>
-                                )}
+                            <div className="rounded-lg border border-slate-800 bg-slate-900/50 p-4">
+                                <p className="text-sm leading-6 text-slate-300">
+                                    Open the email from Supabase Auth and click
+                                    the <span className="font-medium text-white">Sign in</span>{" "}
+                                    link to continue to Anon-PU.
+                                </p>
                             </div>
-
-                            <Button onClick={handleVerify}>
-                                Verify Email
-                            </Button>
 
                             <p className="text-center text-xs text-slate-500">
                                 Your university identity will remain private.
